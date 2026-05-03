@@ -48,3 +48,8 @@ power_law(::GenerationTime, ::AbstractMammal) = _GENERATION_TIME_MAMMAL
 # ── allometric_inputs ──────────────────────────────────────────────────────────
 
 allometric_inputs(::AbstractLifeHistory, ::AbstractTaxon) = (:mass,)
+
+# ── Named convenience wrappers ─────────────────────────────────────────────────
+
+lifespan(taxon, mass)        = allometric(Lifespan(),       taxon, mass)
+generation_time(taxon, mass) = allometric(GenerationTime(), taxon, mass)

@@ -18,7 +18,7 @@ export AbstractTaxon,
 export AbstractAllometricVariable,
     AbstractMetabolicRate, AbstractMorphology, AbstractLocomotion,
     AbstractCardioRespiratory, AbstractLifeHistory, AbstractLeafMorphology,
-    BasalMetabolicRate, FieldMetabolicRate,
+    BasalMetabolicRate, FieldMetabolicRate, StandardMetabolicRate,
     SurfaceArea, SkinArea, PlumageArea, SkeletonMass, BrainMass,
     StrideFrequency, CostOfTransport,
     HeartRate, LungVolume, TidalVolume,
@@ -30,6 +30,17 @@ export PowerLaw, MontgomeryLaw, reference
 
 # Primary interface
 export allometric, power_law, montgomery_law, allometric_inputs, trait_name
+
+# Named convenience functions
+export basal_metabolic_rate, standard_metabolic_rate,
+    surface_area, skin_area, plumage_area, skeleton_mass, brain_mass,
+    stride_frequency, cost_of_transport,
+    heart_rate, lung_volume, tidal_volume,
+    lifespan, generation_time,
+    leaf_area, leaf_dry_mass
+
+# Allometric registry
+export AllometricEntry, ALLOMETRIC_REGISTRY
 
 # Structural constraints
 export AbstractScalingSimilarity, ElasticSimilarity, GeometricSimilarity, DynamicSimilarity
@@ -72,5 +83,6 @@ include("variables/cardiorespiratory.jl")
 include("variables/life_history.jl")
 include("variables/leaf_morphology.jl")
 include("structural_constraints.jl")
+include("allometric_registry.jl")
 
 end

@@ -76,9 +76,11 @@ abstract type AbstractLeafMorphology     <: AbstractAllometricVariable end
 
 # Metabolic rate
 "Basal (resting, fasted, thermoneutral) metabolic rate."
-struct BasalMetabolicRate <: AbstractMetabolicRate end
+struct BasalMetabolicRate    <: AbstractMetabolicRate end
 "Field (free-living) metabolic rate."
-struct FieldMetabolicRate <: AbstractMetabolicRate end
+struct FieldMetabolicRate    <: AbstractMetabolicRate end
+"Standard (fasted, inactive) metabolic rate — temperature-dependent; used for ectotherms."
+struct StandardMetabolicRate <: AbstractMetabolicRate end
 
 # Morphology
 "Total external body surface area."
@@ -125,8 +127,9 @@ struct LeafDryMass <: AbstractLeafMorphology end
 
 Return the standardised trait name for use with traits.build databases.
 """
-trait_name(::BasalMetabolicRate) = "metabolic_rate_basal"
-trait_name(::FieldMetabolicRate) = "metabolic_rate_field"
+trait_name(::BasalMetabolicRate)    = "metabolic_rate_basal"
+trait_name(::FieldMetabolicRate)    = "metabolic_rate_field"
+trait_name(::StandardMetabolicRate) = "metabolic_rate_standard"
 trait_name(::SurfaceArea)        = "body_surface_area"
 trait_name(::SkinArea)           = "skin_area"
 trait_name(::PlumageArea)        = "plumage_area"

@@ -160,3 +160,11 @@ power_law(::BrainMass,    ::Human)          = _BRAIN_HUMAN
 # ── allometric_inputs ──────────────────────────────────────────────────────────
 
 allometric_inputs(::AbstractMorphology, ::AbstractTaxon) = (:mass,)
+
+# ── Named convenience wrappers ─────────────────────────────────────────────────
+
+surface_area(taxon, mass)  = allometric(SurfaceArea(),  taxon, mass)
+skin_area(taxon, mass)     = allometric(SkinArea(),     taxon, mass)
+plumage_area(taxon, mass)  = allometric(PlumageArea(),  taxon, mass)
+skeleton_mass(taxon, mass) = allometric(SkeletonMass(), taxon, mass)
+brain_mass(taxon, mass)    = allometric(BrainMass(),    taxon, mass)

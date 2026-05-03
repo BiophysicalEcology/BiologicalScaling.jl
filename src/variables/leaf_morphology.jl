@@ -174,3 +174,9 @@ power_law(::LeafDryMass, ::AbstractLeafPlant)   = _LEAF_MASS_BROADLEAF
 
 allometric_inputs(::LeafArea,    ::AbstractLeafPlant) = (:length, :width)
 allometric_inputs(::LeafDryMass, ::AbstractLeafPlant) = (:area,)
+
+# ── Named convenience wrappers ─────────────────────────────────────────────────
+
+leaf_area(taxon, length, width)     = allometric(LeafArea(),    taxon, length, width)
+leaf_dry_mass(taxon, area)          = allometric(LeafDryMass(), taxon, area)
+leaf_dry_mass(taxon, length, width) = allometric(LeafDryMass(), taxon, length, width)

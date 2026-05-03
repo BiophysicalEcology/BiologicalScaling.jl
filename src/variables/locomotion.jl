@@ -67,3 +67,8 @@ power_law(::CostOfTransport, ::AbstractBird)   = _COT_BIRD
 # ── allometric_inputs ──────────────────────────────────────────────────────────
 
 allometric_inputs(::AbstractLocomotion, ::AbstractTaxon) = (:mass,)
+
+# ── Named convenience wrappers ─────────────────────────────────────────────────
+
+stride_frequency(taxon, mass)  = allometric(StrideFrequency(), taxon, mass)
+cost_of_transport(taxon, mass) = allometric(CostOfTransport(), taxon, mass)

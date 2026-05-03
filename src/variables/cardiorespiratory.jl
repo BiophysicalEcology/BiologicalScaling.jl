@@ -66,3 +66,9 @@ power_law(::TidalVolume, ::AbstractMammal) = _TIDAL_VOLUME_MAMMAL
 # ── allometric_inputs ──────────────────────────────────────────────────────────
 
 allometric_inputs(::AbstractCardioRespiratory, ::AbstractTaxon) = (:mass,)
+
+# ── Named convenience wrappers ─────────────────────────────────────────────────
+
+heart_rate(taxon, mass)   = allometric(HeartRate(),   taxon, mass)
+lung_volume(taxon, mass)  = allometric(LungVolume(),  taxon, mass)
+tidal_volume(taxon, mass) = allometric(TidalVolume(), taxon, mass)
