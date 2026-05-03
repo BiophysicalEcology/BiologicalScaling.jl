@@ -46,26 +46,69 @@ export AllometricEntry, ALLOMETRIC_REGISTRY
 export AbstractScalingSimilarity, ElasticSimilarity, GeometricSimilarity, DynamicSimilarity
 export limb_diameter, limb_length, limb_aspect_ratio
 
-# Makie plotting stubs (implementations in ext/)
+# Makie plotting — recipe functions and convenience wrappers (implementations in ext/)
+export allometric_scaling, allometric_scaling!
+export structural_constraints, structural_constraints!
 export plot_allometric_scaling, plot_structural_constraints
 
 # ── Makie stubs ───────────────────────────────────────────────────────────────
+# Pre-declared so the names live in BiophysicalAllometry's namespace.
+# @recipe in the extension adds methods; the convenience wrappers override the
+# error-throwing bodies below once a Makie backend is loaded.
 
 """
-    plot_allometric_scaling(variable, pairs; mass_range, n_points) → Figure
+    allometric_scaling([fig_or_ax], variable, pairs; mass_range, n_points, data_points)
 
-Log-log allometric scaling plot. `pairs` is a vector of `(taxon, label, color)` tuples.
-Requires a Makie backend (e.g. `using GLMakie` or `using CairoMakie`).
+Makie recipe for a log-log allometric scaling plot.  `pairs` is a vector of
+`(taxon, label, color)` 3-tuples.  `data_points` (optional) overlays observed
+data as `(mass, value, label)` 3-tuples.
+
+Works composably inside any `Figure` position or `Axis` via `allometric_scaling!`.
+Requires a Makie backend (`using GLMakie` or `using CairoMakie`).
+"""
+function allometric_scaling(args...; kwargs...)
+    error("allometric_scaling requires a Makie backend — load GLMakie or CairoMakie first.")
+end
+function allometric_scaling!(args...; kwargs...)
+    error("allometric_scaling! requires a Makie backend — load GLMakie or CairoMakie first.")
+end
+
+"""
+    structural_constraints([fig_or_ax], pairs; mass_range, target, n_points)
+
+Makie recipe for comparing limb dimensions across structural similarity assumptions.
+`pairs` is a vector of `(similarity, label, color)` 3-tuples.
+`target` is `:diameter` (default) or `:length`.
+
+Requires a Makie backend (`using GLMakie` or `using CairoMakie`).
+"""
+function structural_constraints(args...; kwargs...)
+    error("structural_constraints requires a Makie backend — load GLMakie or CairoMakie first.")
+end
+function structural_constraints!(args...; kwargs...)
+    error("structural_constraints! requires a Makie backend — load GLMakie or CairoMakie first.")
+end
+
+"""
+    plot_allometric_scaling(variable, pairs; mass_range, n_points, data_points) → Figure
+
+Convenience wrapper: creates a complete `Figure` with log-log axes, calls
+`allometric_scaling!`, and adds a legend.  For composable use, call the recipe
+directly via `allometric_scaling(fig[r,c], ...)` or `allometric_scaling!(ax, ...)`.
+
+Requires a Makie backend (`using GLMakie` or `using CairoMakie`).
 """
 function plot_allometric_scaling(args...; kwargs...)
     error("plot_allometric_scaling requires a Makie backend — load GLMakie or CairoMakie first.")
 end
 
 """
-    plot_structural_constraints(pairs; mass_range, target) → Figure
+    plot_structural_constraints(pairs; mass_range, target, n_points) → Figure
 
-Compare limb dimension predictions across structural similarity assumptions.
-Requires a Makie backend.
+Convenience wrapper: creates a complete `Figure` for structural constraint
+comparison.  For composable use, call `structural_constraints(fig[r,c], ...)`.
+
+Requires a Makie backend (`using GLMakie` or `using CairoMakie`).
 """
 function plot_structural_constraints(args...; kwargs...)
     error("plot_structural_constraints requires a Makie backend — load GLMakie or CairoMakie first.")
