@@ -6,7 +6,7 @@
 Kleiber's law for eutherian (placental) mammals: BMR = 3.34 × M^0.75 W (M in kg).
 
 Source: Schmidt-Nielsen, K. (1975). Scaling in Biology: The Consequences of Size.
-*American Zoologist* 15:295–305, Table 4-2.
+*Journal of Experimental Zoology* 194:287–307, Table 4-2.
 See also: McNab, B. K. (2008). An analysis of the factors that influence the level
 and scaling of mammalian BMR. *Comparative Biochemistry and Physiology A* 151:5–28.
 """
@@ -14,7 +14,7 @@ const _BMR_EUTHERIAN = PowerLaw(
     3.34, 0.75;
     input_unit  = u"kg",
     output_unit = u"W",
-    reference   = "Schmidt-Nielsen 1975 Am. Zool. 15:295–305; McNab 2008 Comp. Biochem. Physiol. A 151:5–28"
+    reference   = "Schmidt-Nielsen 1975 J. Exp. Zool. 194:287–307; McNab 2008 Comp. Biochem. Physiol. A 151:5–28"
 )
 
 """
@@ -159,6 +159,20 @@ allometric_inputs(::StandardMetabolicRate, ::AbstractTaxon) = (:mass, :temperatu
 
 # ── Named convenience wrappers ─────────────────────────────────────────────────
 
+"""
+    basal_metabolic_rate(taxon, mass)
+
+Shorthand for `allometric(BasalMetabolicRate(), taxon, mass)`. Example:
+
+    basal_metabolic_rate(EutherianMammal(), 70.0u"kg")
+"""
 basal_metabolic_rate(taxon, mass) = allometric(BasalMetabolicRate(), taxon, mass)
+"""
+    standard_metabolic_rate(taxon, mass, temperature; metabolic_state=0.0)
+
+Shorthand for `allometric(StandardMetabolicRate(), taxon, mass, temperature; metabolic_state)`. Example:
+
+    standard_metabolic_rate(Squamate(), 50.0u"g", 30.0u"°C")
+"""
 standard_metabolic_rate(taxon, mass, temperature; metabolic_state=0.0) =
     allometric(StandardMetabolicRate(), taxon, mass, temperature; metabolic_state)

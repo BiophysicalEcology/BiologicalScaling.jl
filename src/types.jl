@@ -8,10 +8,35 @@ Root abstract type for taxonomic groups used to dispatch allometric equations.
 """
 abstract type AbstractTaxon end
 
+"""
+    AbstractMammal <: AbstractTaxon
+
+Mammals. Equations for `AbstractMammal` apply to every mammal taxon without its own.
+"""
 abstract type AbstractMammal    <: AbstractTaxon end
+"""
+    AbstractBird <: AbstractTaxon
+
+Birds.
+"""
 abstract type AbstractBird      <: AbstractTaxon end
+"""
+    AbstractReptile <: AbstractTaxon
+
+Reptiles.
+"""
 abstract type AbstractReptile   <: AbstractTaxon end
+"""
+    AbstractAmphibian <: AbstractTaxon
+
+Amphibians.
+"""
 abstract type AbstractAmphibian <: AbstractTaxon end
+"""
+    AbstractPlant <: AbstractTaxon
+
+Plants.
+"""
 abstract type AbstractPlant     <: AbstractTaxon end
 
 # Mammals
@@ -46,6 +71,11 @@ struct LeopardFrog <: AbstractAmphibian end
 "C3 photosynthesis plants."
 struct C3Plant <: AbstractPlant end
 
+"""
+    AbstractLeafPlant <: AbstractPlant
+
+Plant groups with a leaf-shape (Montgomery) parameter, see [`leaf_area`](@ref).
+"""
 abstract type AbstractLeafPlant <: AbstractPlant end
 
 "Generic broad-leaved plant (default Montgomery parameter)."
@@ -71,11 +101,41 @@ Root abstract type for biological quantities predictable via allometry.
 """
 abstract type AbstractScalingVariable end
 
+"""
+    AbstractMetabolicRate <: AbstractScalingVariable
+
+Metabolic rates.
+"""
 abstract type AbstractMetabolicRate      <: AbstractScalingVariable end
+"""
+    AbstractMorphology <: AbstractScalingVariable
+
+Body areas and masses of body parts.
+"""
 abstract type AbstractMorphology         <: AbstractScalingVariable end
+"""
+    AbstractLocomotion <: AbstractScalingVariable
+
+Traits of locomotion.
+"""
 abstract type AbstractLocomotion         <: AbstractScalingVariable end
+"""
+    AbstractCardioRespiratory <: AbstractScalingVariable
+
+Traits of the heart and lungs.
+"""
 abstract type AbstractCardioRespiratory  <: AbstractScalingVariable end
+"""
+    AbstractLifeHistory <: AbstractScalingVariable
+
+Life-history traits.
+"""
 abstract type AbstractLifeHistory        <: AbstractScalingVariable end
+"""
+    AbstractLeafMorphology <: AbstractScalingVariable
+
+Leaf dimensions and masses.
+"""
 abstract type AbstractLeafMorphology     <: AbstractScalingVariable end
 
 # Metabolic rate
@@ -98,6 +158,11 @@ struct SkeletonMass <: AbstractMorphology end
 "Brain mass."
 struct BrainMass    <: AbstractMorphology end
 
+"""
+    AbstractSilhouetteOrientation
+
+Orientation of a body to the solar beam, for [`SilhouetteArea`](@ref): [`NormalToSun`](@ref) or [`ParallelToSun`](@ref).
+"""
 abstract type AbstractSilhouetteOrientation end
 "Body oriented perpendicular to the solar beam (maximum projected area)."
 struct NormalToSun   <: AbstractSilhouetteOrientation end

@@ -6,13 +6,13 @@
 Generic mammal total surface area (isometric baseline): SA = 0.1 × M^0.667 m² (M in kg).
 
 Source: Schmidt-Nielsen, K. (1975). Scaling in Biology: The Consequences of Size.
-*American Zoologist* 15:295–305. Derived from geometric similarity (SA ∝ M^2/3).
+*Journal of Experimental Zoology* 194:287–307. Derived from geometric similarity (SA ∝ M^2/3).
 """
 const _SA_MAMMAL = PowerLaw(
     0.1, 0.667;
     input_unit  = u"kg",
     output_unit = u"m^2",
-    reference   = "Schmidt-Nielsen 1975 Am. Zool. 15:295–305 (isometric baseline)"
+    reference   = "Schmidt-Nielsen 1975 J. Exp. Zool. 194:287–307 (isometric baseline)"
 )
 
 """
@@ -75,13 +75,13 @@ Mammal skeleton dry mass: M_sk = 0.061 × M^1.13 kg (M in kg).
 Larger animals require disproportionately heavier skeletons.
 
 Source: Schmidt-Nielsen, K. (1975). Scaling in Biology: The Consequences of Size.
-*American Zoologist* 15:295–305.
+*Journal of Experimental Zoology* 194:287–307.
 """
 const _SKELETON_MAMMAL = PowerLaw(
     0.061, 1.13;
     input_unit  = u"kg",
     output_unit = u"kg",
-    reference   = "Schmidt-Nielsen 1975 Am. Zool. 15:295–305"
+    reference   = "Schmidt-Nielsen 1975 J. Exp. Zool. 194:287–307"
 )
 
 # ── Brain mass ────────────────────────────────────────────────────────────────
@@ -92,13 +92,13 @@ const _SKELETON_MAMMAL = PowerLaw(
 Generic mammal brain mass: M_brain = 0.01 × M^0.7 kg (M in kg).
 
 Source: Schmidt-Nielsen, K. (1975). Scaling in Biology: The Consequences of Size.
-*American Zoologist* 15:295–305.
+*Journal of Experimental Zoology* 194:287–307.
 """
 const _BRAIN_MAMMAL = PowerLaw(
     0.01, 0.7;
     input_unit  = u"kg",
     output_unit = u"kg",
-    reference   = "Schmidt-Nielsen 1975 Am. Zool. 15:295–305"
+    reference   = "Schmidt-Nielsen 1975 J. Exp. Zool. 194:287–307"
 )
 
 """
@@ -107,13 +107,13 @@ const _BRAIN_MAMMAL = PowerLaw(
 Non-human primate brain mass: M_brain = 0.025 × M^0.66 kg (M in kg).
 
 Source: Schmidt-Nielsen, K. (1975). Scaling in Biology: The Consequences of Size.
-*American Zoologist* 15:295–305 (midpoint of 0.02–0.03 range).
+*Journal of Experimental Zoology* 194:287–307 (midpoint of 0.02–0.03 range).
 """
 const _BRAIN_PRIMATE = PowerLaw(
     0.025, 0.66;
     input_unit  = u"kg",
     output_unit = u"kg",
-    reference   = "Schmidt-Nielsen 1975 Am. Zool. 15:295–305 (primates)"
+    reference   = "Schmidt-Nielsen 1975 J. Exp. Zool. 194:287–307 (primates)"
 )
 
 """
@@ -122,13 +122,13 @@ const _BRAIN_PRIMATE = PowerLaw(
 Human brain mass: M_brain = 0.08 × M^0.66 kg (M in kg).
 
 Source: Schmidt-Nielsen, K. (1975). Scaling in Biology: The Consequences of Size.
-*American Zoologist* 15:295–305.
+*Journal of Experimental Zoology* 194:287–307.
 """
 const _BRAIN_HUMAN = PowerLaw(
     0.08, 0.66;
     input_unit  = u"kg",
     output_unit = u"kg",
-    reference   = "Schmidt-Nielsen 1975 Am. Zool. 15:295–305 (humans)"
+    reference   = "Schmidt-Nielsen 1975 J. Exp. Zool. 194:287–307 (humans)"
 )
 
 # ── Silhouette area ────────────────────────────────────────────────────────────
@@ -142,13 +142,13 @@ ASIL = 3.798×10⁻⁴ × Mɡ^0.683 m² (Mɡ in g).
 Source: Porter, W. P., & Tracy, C. R. (1983). Biophysical analyses of energetics, time-space
 utilization, and distributional limits. In R. B. Huey, E. R. Pianka, & T. W. Schoener (Eds.),
 *Lizard Ecology: Studies of a Model Organism* (pp. 55–83). Harvard University Press.
-Original data from Porter et al. (1973) *Science* 179:720–723.
+Original data from Porter et al. (1973) *Oecologia* 13:1–54.
 """
 const _SIL_NORMAL_DESERT_IGUANA = PowerLaw(
     3.798e-4, 0.683;
     input_unit  = u"g",
     output_unit = u"m^2",
-    reference   = "Porter et al. 1973 Science 179:720–723; Porter & Tracy 1983 in Lizard Ecology (Harvard)"
+    reference   = "Porter et al. 1973 Oecologia 13:1–54; Porter & Tracy 1983 in Lizard Ecology (Harvard)"
 )
 
 """
@@ -165,7 +165,7 @@ const _SIL_PARALLEL_DESERT_IGUANA = PowerLaw(
     6.94e-5, 0.743;
     input_unit  = u"g",
     output_unit = u"m^2",
-    reference   = "Porter et al. 1973 Science 179:720–723; Porter & Tracy 1983 in Lizard Ecology (Harvard)"
+    reference   = "Porter et al. 1973 Oecologia 13:1–54; Porter & Tracy 1983 in Lizard Ecology (Harvard)"
 )
 
 """
@@ -245,9 +245,52 @@ power_law(::SilhouetteArea{ParallelToSun}, ::LeopardFrog)  = _SIL_VENTRAL_LEOPAR
 
 # ── Named convenience wrappers ─────────────────────────────────────────────────
 
+"""
+    surface_area(taxon, mass)
+
+Shorthand for `allometric(SurfaceArea(), taxon, mass)`. Example:
+
+    surface_area(EutherianMammal(), 70.0u"kg")
+"""
 surface_area(taxon, mass)     = allometric(SurfaceArea(),  taxon, mass)
+"""
+    skin_area(taxon, mass)
+
+Shorthand for `allometric(SkinArea(), taxon, mass)`. Example:
+
+    skin_area(PasserineBird(), 20.0u"g")
+"""
 skin_area(taxon, mass)        = allometric(SkinArea(),     taxon, mass)
+"""
+    plumage_area(taxon, mass)
+
+Shorthand for `allometric(PlumageArea(), taxon, mass)`. Example:
+
+    plumage_area(PasserineBird(), 20.0u"g")
+"""
 plumage_area(taxon, mass)     = allometric(PlumageArea(),  taxon, mass)
+"""
+    skeleton_mass(taxon, mass)
+
+Shorthand for `allometric(SkeletonMass(), taxon, mass)`. Example:
+
+    skeleton_mass(EutherianMammal(), 70.0u"kg")
+"""
 skeleton_mass(taxon, mass)    = allometric(SkeletonMass(), taxon, mass)
+"""
+    brain_mass(taxon, mass)
+
+Shorthand for `allometric(BrainMass(), taxon, mass)`. Example:
+
+    brain_mass(Primate(), 5.0u"kg")
+"""
 brain_mass(taxon, mass)       = allometric(BrainMass(),    taxon, mass)
+"""
+    silhouette_area(orientation, taxon, mass)
+
+Shorthand for `allometric(SilhouetteArea{typeof(orientation)}(), taxon, mass)`, with `orientation`
+[`NormalToSun`](@ref)`()` or [`ParallelToSun`](@ref)`()`. Example:
+
+    silhouette_area(NormalToSun(), DesertIguana(), 50.0u"g")
+"""
 silhouette_area(orientation, taxon, mass) = allometric(SilhouetteArea{typeof(orientation)}(), taxon, mass)

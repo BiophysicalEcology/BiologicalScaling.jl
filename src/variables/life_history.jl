@@ -8,7 +8,7 @@ Maximum lifespan for mammals: L = 11.8 × M^0.20 yr (M in kg).
 Source: Calder, W. A. (1984). *Size, Function, and Life History*.
 Harvard University Press, Cambridge MA.
 See also: Schmidt-Nielsen, K. (1975). Scaling in Biology: The Consequences of Size.
-*American Zoologist* 15:295–305.
+*Journal of Experimental Zoology* 194:287–307.
 """
 const _LIFESPAN_MAMMAL = PowerLaw(
     11.8, 0.20;
@@ -51,5 +51,19 @@ allometric_inputs(::AbstractLifeHistory, ::AbstractTaxon) = (:mass,)
 
 # ── Named convenience wrappers ─────────────────────────────────────────────────
 
+"""
+    lifespan(taxon, mass)
+
+Shorthand for `allometric(Lifespan(), taxon, mass)`. Example:
+
+    lifespan(EutherianMammal(), 70.0u"kg")
+"""
 lifespan(taxon, mass)        = allometric(Lifespan(),       taxon, mass)
+"""
+    generation_time(taxon, mass)
+
+Shorthand for `allometric(GenerationTime(), taxon, mass)`. Example:
+
+    generation_time(EutherianMammal(), 70.0u"kg")
+"""
 generation_time(taxon, mass) = allometric(GenerationTime(), taxon, mass)

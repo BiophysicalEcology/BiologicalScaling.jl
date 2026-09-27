@@ -177,6 +177,21 @@ allometric_inputs(::LeafDryMass, ::AbstractLeafPlant) = (:area,)
 
 # ── Named convenience wrappers ─────────────────────────────────────────────────
 
+"""
+    leaf_area(taxon, length, width)
+
+Shorthand for `allometric(LeafArea(), taxon, length, width)`. Example:
+
+    leaf_area(BroadleafPlant(), 10.0u"cm", 5.0u"cm")
+"""
 leaf_area(taxon, length, width)     = allometric(LeafArea(),    taxon, length, width)
+"""
+    leaf_dry_mass(taxon, area)
+    leaf_dry_mass(taxon, length, width)
+
+Shorthand for `allometric(LeafDryMass(), taxon, ...)`, from leaf area or from leaf length and width. Example:
+
+    leaf_dry_mass(BroadleafPlant(), 20.0u"cm^2")
+"""
 leaf_dry_mass(taxon, area)          = allometric(LeafDryMass(), taxon, area)
 leaf_dry_mass(taxon, length, width) = allometric(LeafDryMass(), taxon, length, width)
