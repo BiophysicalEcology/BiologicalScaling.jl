@@ -8,7 +8,7 @@ Resting heart rate for mammals: HR = 241 × M^-0.25 min⁻¹ (M in kg).
 Source: Stahl, W. R. (1967). Scaling of respiratory variables in mammals.
 *Journal of Applied Physiology* 22:453–460.
 See also: Schmidt-Nielsen, K. (1975). Scaling in Biology: The Consequences of Size.
-*American Zoologist* 15:295–305.
+*Journal of Experimental Zoology* 194:287–307.
 """
 const _HEART_RATE_MAMMAL = PowerLaw(
     241.0, -0.25;
@@ -65,10 +65,37 @@ power_law(::TidalVolume, ::AbstractMammal) = _TIDAL_VOLUME_MAMMAL
 
 # ── allometric_inputs ──────────────────────────────────────────────────────────
 
+"""
+    allometric_inputs(variable, taxon) → Tuple{Vararg{Symbol}}
+
+The names of the inputs that `allometric(variable, taxon, inputs...)` takes, e.g. `(:mass,)`,
+`(:mass, :temperature)` or `(:length, :width)`.
+"""
 allometric_inputs(::AbstractCardioRespiratory, ::AbstractTaxon) = (:mass,)
 
 # ── Named convenience wrappers ─────────────────────────────────────────────────
 
+"""
+    heart_rate(taxon, mass)
+
+Shorthand for `allometric(HeartRate(), taxon, mass)`. Example:
+
+    heart_rate(EutherianMammal(), 70.0u"kg")
+"""
 heart_rate(taxon, mass)   = allometric(HeartRate(),   taxon, mass)
+"""
+    lung_volume(taxon, mass)
+
+Shorthand for `allometric(LungVolume(), taxon, mass)`. Example:
+
+    lung_volume(EutherianMammal(), 70.0u"kg")
+"""
 lung_volume(taxon, mass)  = allometric(LungVolume(),  taxon, mass)
+"""
+    tidal_volume(taxon, mass)
+
+Shorthand for `allometric(TidalVolume(), taxon, mass)`. Example:
+
+    tidal_volume(EutherianMammal(), 70.0u"kg")
+"""
 tidal_volume(taxon, mass) = allometric(TidalVolume(), taxon, mass)

@@ -53,6 +53,12 @@ function body_part_proportions end
 # Derived from NicheMapR HomoTherm.R and human_silhouette_area.R (Kearney).
 # mass_fraction sums to ~0.802 (remaining mass is in hands, feet, neck, etc.).
 
+"""
+    HUMAN_BODY_PROPORTIONS :: BodyPartProportions
+
+Body-part proportions of humans (head, trunk, arms and legs), returned by
+[`body_part_proportions`](@ref)`(Human())`.
+"""
 const HUMAN_BODY_PROPORTIONS = BodyPartProportions(
     [:head, :trunk, :arms, :legs],
     [0.07609801, 0.50069348, 0.04932963, 0.16227462],

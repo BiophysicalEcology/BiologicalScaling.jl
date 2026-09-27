@@ -8,7 +8,7 @@ Mammal stride frequency at the trot–gallop transition: f ≈ 4.0 × M^-0.25 Hz
 Source: Heglund, N. C., Taylor, C. R., & McMahon, T. A. (1974). Scaling stride frequency
 and gait to animal size: mice to horses. *Science* 186:1112–1113.
 See also: Schmidt-Nielsen, K. (1975). Scaling in Biology: The Consequences of Size.
-*American Zoologist* 15:295–305.
+*Journal of Experimental Zoology* 194:287–307.
 """
 const _STRIDE_FREQ_MAMMAL = PowerLaw(
     4.0, -0.25;
@@ -70,5 +70,19 @@ allometric_inputs(::AbstractLocomotion, ::AbstractTaxon) = (:mass,)
 
 # ── Named convenience wrappers ─────────────────────────────────────────────────
 
+"""
+    stride_frequency(taxon, mass)
+
+Shorthand for `allometric(StrideFrequency(), taxon, mass)`. Example:
+
+    stride_frequency(EutherianMammal(), 20.0u"kg")
+"""
 stride_frequency(taxon, mass)  = allometric(StrideFrequency(), taxon, mass)
+"""
+    cost_of_transport(taxon, mass)
+
+Shorthand for `allometric(CostOfTransport(), taxon, mass)`. Example:
+
+    cost_of_transport(EutherianMammal(), 20.0u"kg")
+"""
 cost_of_transport(taxon, mass) = allometric(CostOfTransport(), taxon, mass)

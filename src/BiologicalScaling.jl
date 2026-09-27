@@ -61,11 +61,12 @@ export plot_allometric_scaling, plot_structural_constraints
 # error-throwing bodies below once a Makie backend is loaded.
 
 """
-    allometric_scaling([fig_or_ax], variable, pairs; mass_range, n_points, data_points)
+    allometric_scaling([fig_or_ax], variable, pairs; mass_range, n_points, data_points, label_fontsize=12)
 
 Makie recipe for a log-log allometric scaling plot.  `pairs` is a vector of
 `(taxon, label, color)` 3-tuples.  `data_points` (optional) overlays observed
-data as `(mass, value, label)` 3-tuples.
+data as `(mass, value, label)` 3-tuples, labelled with font size `label_fontsize`. The scaling
+exponent of each line is shown in its legend label.
 
 Works composably inside any `Figure` position or `Axis` via `allometric_scaling!`.
 Requires a Makie backend (`using GLMakie` or `using CairoMakie`).
@@ -73,6 +74,11 @@ Requires a Makie backend (`using GLMakie` or `using CairoMakie`).
 function allometric_scaling(args...; kwargs...)
     error("allometric_scaling requires a Makie backend — load GLMakie or CairoMakie first.")
 end
+"""
+    allometric_scaling!(ax, variable, pairs; mass_range, n_points, data_points, label_fontsize=12)
+
+Plot allometric scaling lines into an existing Makie `Axis`, see [`allometric_scaling`](@ref).
+"""
 function allometric_scaling!(args...; kwargs...)
     error("allometric_scaling! requires a Makie backend — load GLMakie or CairoMakie first.")
 end
@@ -89,12 +95,17 @@ Requires a Makie backend (`using GLMakie` or `using CairoMakie`).
 function structural_constraints(args...; kwargs...)
     error("structural_constraints requires a Makie backend — load GLMakie or CairoMakie first.")
 end
+"""
+    structural_constraints!(ax, pairs; mass_range, target, n_points)
+
+Plot limb dimensions into an existing Makie `Axis`, see [`structural_constraints`](@ref).
+"""
 function structural_constraints!(args...; kwargs...)
     error("structural_constraints! requires a Makie backend — load GLMakie or CairoMakie first.")
 end
 
 """
-    plot_allometric_scaling(variable, pairs; mass_range, n_points, data_points) → Figure
+    plot_allometric_scaling(variable, pairs; mass_range, n_points, data_points, label_fontsize=12) → Figure
 
 Convenience wrapper: creates a complete `Figure` with log-log axes, calls
 `allometric_scaling!`, and adds a legend.  For composable use, call the recipe

@@ -47,7 +47,8 @@ function allometric_scaling!(
         pairs;
         mass_range  = [0.001u"kg", 1000.0u"kg"],
         n_points    = 200,
-        data_points = nothing)
+        data_points = nothing,
+        label_fontsize = 12)
 
     m_lo   = ustrip(u"kg", mass_range[1])
     m_hi   = ustrip(u"kg", mass_range[2])
@@ -56,13 +57,9 @@ function allometric_scaling!(
     for (taxon, label, color) in pairs
         pl = power_law(variable, taxon)
         ys = [ustrip(pl(m * u"kg")) for m in masses]
-        lines!(ax, masses, ys; color = color, linewidth = 2, label = label)
-        mid = n_points ÷ 2
-        text!(ax, masses[mid], ys[mid];
-              text    = " α = $(round(pl.exponent; digits = 3))",
-              fontsize = 9,
-              color   = color,
-              align   = (:left, :bottom))
+        # The exponent goes in the legend, where labels of close lines cannot overlap
+        lines!(ax, masses, ys; color = color, linewidth = 2,
+               label = "$label, α = $(round(pl.exponent; digits = 3))")
     end
 
     if !isnothing(data_points)
@@ -77,7 +74,7 @@ function allometric_scaling!(
             scatter!(ax, [mx], [vy]; kw...)
             isempty(lbl) || text!(ax, mx, vy;
                                    text    = "  $lbl",
-                                   fontsize = 8,
+                                   fontsize = label_fontsize,
                                    color   = :black,
                                    align   = (:left, :center))
         end
@@ -160,13 +157,15 @@ function plot_allometric_scaling(
         pairs;
         mass_range  = [0.001u"kg", 1000.0u"kg"],
         n_points    = 200,
-        data_points = nothing)
+        data_points = nothing,
+        label_fontsize = 12)
 
     fig = Figure(size = (680, 480), backgroundcolor = :white)
     ax  = allometric_scaling(fig[1, 1], variable, pairs;
                               mass_range  = mass_range,
                               n_points    = n_points,
-                              data_points = data_points)
+                              data_points = data_points,
+                              label_fontsize = label_fontsize)
     ax.title = "Allometric scaling: $(nameof(typeof(variable)))"
     axislegend(ax; position = :rb, framevisible = false)
     return fig

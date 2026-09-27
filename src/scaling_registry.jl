@@ -118,8 +118,8 @@ Predict a biological quantity from body mass, temperature, or morphological
 dimensions using a taxon-specific allometric equation.  All inputs and outputs
 are `Unitful` quantities; unit conversion is handled automatically.
 
-`variable` and `taxon` are singleton instances of the types defined in
-[`types.jl`](@ref) (e.g. `BasalMetabolicRate()`, `EutherianMammal()`).
+`variable` and `taxon` are singleton instances of
+subtypes of [`AbstractScalingVariable`](@ref) and [`AbstractTaxon`](@ref) (e.g. `BasalMetabolicRate()`, `EutherianMammal()`).
 
 ## Available equations
 

@@ -1,4 +1,4 @@
-# API Reference
+# API
 
 ## Primary interface
 
@@ -40,6 +40,9 @@ PlumageArea
 SkeletonMass
 BrainMass
 SilhouetteArea
+AbstractSilhouetteOrientation
+NormalToSun
+ParallelToSun
 AbstractLocomotion
 StrideFrequency
 CostOfTransport
@@ -130,7 +133,9 @@ HUMAN_BODY_PROPORTIONS
 
 ```@docs
 allometric_scaling
+allometric_scaling!
 structural_constraints
+structural_constraints!
 plot_allometric_scaling
 plot_structural_constraints
 ```

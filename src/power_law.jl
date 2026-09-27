@@ -17,7 +17,7 @@ whose dimensions match `input_unit`, and receive a `Unitful` quantity in `output
 # Example
 ```julia
 pl = PowerLaw(3.34, 0.75; input_unit=u"kg", output_unit=u"W",
-              reference="Schmidt-Nielsen 1975 Am. Zool. 15:295–305")
+              reference="Schmidt-Nielsen 1975 J. Exp. Zool. 194:287–307")
 pl(1.0u"kg")     # → 3.34 W
 pl(500.0u"g")    # → unit-converted automatically
 ```
