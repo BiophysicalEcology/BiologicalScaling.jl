@@ -106,12 +106,12 @@ The metabolic rate of ectotherms depends on body temperature. For squamate repti
 uses the equation of Andrews and Pough (1985),
 
 ```math
-\dot{V}_{O_2} = 0.013\, M^{0.8}\, 10^{0.038 T}\, 10^{s} \quad \text{mL O}_2\text{/h}
+\dot{V}_{O_2} = 0.013\, M^{0.8}\, 10^{0.038 T}\, 10^{0.14 s} \quad \text{mL O}_2\text{/h}
 ```
 
 with body mass ``M`` in g and body temperature ``T`` in °C, converted to W with 20.1 J per mL of oxygen. The
 metabolic state ``s`` is 0 for standard (fasted and inactive) and 1 for resting (fasted, in the active season)
-metabolism:
+metabolism, which is 1.4 times standard:
 
 ::: tabs
 

@@ -65,7 +65,7 @@ const _BMR_PASSERINE = PowerLaw(
 
 # ── Standard metabolic rate — ectotherms ──────────────────────────────────────
 # Andrews & Pough (1985) Eq. 2 parameters for squamates.
-# VO₂ = normalisation × M_g^0.8 × 10^(0.038 × T_°C) × 10^metabolic_state  (mL O₂/hr)
+# VO₂ = normalisation × M_g^0.8 × 10^(0.038 × T_°C) × 10^(0.14 × metabolic_state)  (mL O₂/hr)
 # metabolic_state = 0 → standard (fasted, inactive); 1 → resting (fasted, active).
 const _SMR_SQUAMATE_REFERENCE = "Andrews & Pough 1985 Physiol. Zool. 58:214–231, Eq. 2"
 
@@ -115,7 +115,7 @@ function allometric(::StandardMetabolicRate, ::Squamate, mass, temperature;
                     metabolic_state = 0.0)
     mass_g = ustrip(u"g", mass)
     temp_C = clamp(ustrip(u"°C", temperature), 1.0, 50.0)
-    oxygen_ml_hr = 0.013 * mass_g^0.8 * 10.0^(0.038 * temp_C) * 10.0^metabolic_state
+    oxygen_ml_hr = 0.013 * mass_g^0.8 * 10.0^(0.038 * temp_C) * 10.0^(0.14 * metabolic_state)
     return (oxygen_ml_hr * 20.1 / 3600.0) * u"W"
 end
 
