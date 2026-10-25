@@ -234,12 +234,12 @@ const _VENTRAL_DESERT_IGUANA = PowerLaw(
 )
 
 """
-    allometric(::SilhouetteArea{ZenithAngle}, ::LeopardFrog, mass, zenith_angle) → Area
+    allometric(::SilhouetteArea{ZenithAngleVarying}, ::LeopardFrog, mass, zenith_angle) → Area
 
 Leopard frog silhouette area as a percentage of total area, a quartic in the solar zenith
 angle (degrees), from Tracy (1976) *Ecological Monographs* 46:293–326.
 """
-function allometric(::SilhouetteArea{ZenithAngle}, taxon::LeopardFrog, mass, zenith_angle)
+function allometric(::SilhouetteArea{ZenithAngleVarying}, taxon::LeopardFrog, mass, zenith_angle)
     θ = ustrip(u"°", zenith_angle)
     percent = 1.38171e-6 * θ^4 - 1.93335e-4 * θ^3 + 4.75761e-3 * θ^2 - 0.167912 * θ + 45.8228
     return percent / 100 * allometric(SurfaceArea(), taxon, mass)
@@ -280,7 +280,7 @@ power_law(::BrainMass,    ::Human)          = _BRAIN_HUMAN
 # ── allometric_inputs ──────────────────────────────────────────────────────────
 
 allometric_inputs(::AbstractMorphology, ::AbstractTaxon) = (:mass,)
-allometric_inputs(::SilhouetteArea{ZenithAngle}, ::AbstractTaxon) = (:mass, :zenith_angle)
+allometric_inputs(::SilhouetteArea{ZenithAngleVarying}, ::AbstractTaxon) = (:mass, :zenith_angle)
 
 # ── Named convenience wrappers ─────────────────────────────────────────────────
 
@@ -303,7 +303,7 @@ Shorthand for `allometric(SurfaceArea(), taxon, mass)`. Example:
 
     surface_area(EutherianMammal(), 70.0u"kg")
 """
-surface_area(taxon, mass)     = allometric(SurfaceArea(),  taxon, mass)
+surface_area(taxon::AbstractTaxon, mass) = allometric(SurfaceArea(), taxon, mass)
 """
     skin_area(taxon, mass)
 
@@ -311,7 +311,7 @@ Shorthand for `allometric(SkinArea(), taxon, mass)`. Example:
 
     skin_area(PasserineBird(), 20.0u"g")
 """
-skin_area(taxon, mass)        = allometric(SkinArea(),     taxon, mass)
+skin_area(taxon::AbstractTaxon, mass)    = allometric(SkinArea(),    taxon, mass)
 """
     plumage_area(taxon, mass)
 
@@ -344,4 +344,5 @@ Shorthand for `allometric(SilhouetteArea{typeof(orientation)}(), taxon, mass)`, 
 
     silhouette_area(NormalToSun(), DesertIguana(), 50.0u"g")
 """
-silhouette_area(orientation, taxon, mass) = allometric(SilhouetteArea{typeof(orientation)}(), taxon, mass)
+silhouette_area(orientation::SolarOrientation, taxon::AbstractTaxon, mass) =
+    allometric(SilhouetteArea{typeof(orientation)}(), taxon, mass)

@@ -180,7 +180,7 @@ end
     @test allometric(VentralArea(), DesertIguana(), m) ≈ uconvert(u"m^2", 0.425 * 40.0^0.85 * u"cm^2")
     @test allometric(SurfaceArea(), LeopardFrog(), m) ≈ uconvert(u"m^2", 12.79 * 40.0^0.606 * u"cm^2")
     # silhouette is ~45.8 % of total area with the sun overhead
-    @test allometric(SilhouetteArea{ZenithAngle}(), LeopardFrog(), m, 0.0u"°") ≈
+    @test allometric(SilhouetteArea{ZenithAngleVarying}(), LeopardFrog(), m, 0.0u"°") ≈
           0.458228 * allometric(SurfaceArea(), LeopardFrog(), m)
 end
 
@@ -190,4 +190,16 @@ end
           10^0.14 * allometric(StandardMetabolicRate(), Squamate(), m, T)
     @test allometric(BasalMetabolicRate(), EutherianMammal(), 1.0u"kg", 37.0u"°C") ==
           allometric(BasalMetabolicRate(), EutherianMammal(), 1.0u"kg")
+end
+
+@testset "AllometricShape" begin
+    using BiophysicalGeometry: Body, Naked, Intermediate, total_area
+    m = 40.0u"g"
+    body = Body(AllometricShape(DesertIguana(), m, 1000.0u"kg/m^3"), Naked())
+    @test total_area(body) == allometric(SurfaceArea(), DesertIguana(), m)
+    @test silhouette_area(body, NormalToSun()) == allometric(SilhouetteArea{NormalToSun}(), DesertIguana(), m)
+    @test silhouette_area(body, Intermediate()) ≈
+          (silhouette_area(NormalToSun(), DesertIguana(), m) + silhouette_area(ParallelToSun(), DesertIguana(), m)) / 2
+    frog = Body(AllometricShape(LeopardFrog(), m, 1000.0u"kg/m^3"), Naked())
+    @test silhouette_area(frog, ZenithAngleVarying(), 0.0u"°") ≈ 0.458228 * total_area(frog)
 end
