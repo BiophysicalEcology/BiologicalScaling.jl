@@ -201,9 +201,56 @@ const _SIL_VENTRAL_LEOPARD_FROG = PowerLaw(
     reference   = "Tracy 1976 Ecol. Monogr. 46:293–326"
 )
 
+# ── Squamate and anuran surface areas ─────────────────────────────────────────
+
+"""
+    _SA_DESERT_IGUANA
+
+Desert iguana (*Dipsosaurus dorsalis*) total surface area: A = 1.04713×10⁻³ × Mɡ^0.688 m² (Mɡ in g).
+
+Source: Porter, W. P., & Tracy, C. R. (1983). Biophysical analyses of energetics, time-space
+utilization, and distributional limits. In *Lizard Ecology: Studies of a Model Organism*
+(pp. 55–83). Harvard University Press.
+"""
+const _SA_DESERT_IGUANA = PowerLaw(
+    1.04713e-3, 0.688;
+    input_unit  = u"g",
+    output_unit = u"m^2",
+    reference   = "Porter & Tracy 1983 in Lizard Ecology (Harvard)"
+)
+
+"""
+    _VENTRAL_DESERT_IGUANA
+
+Desert iguana ventral area: A = 4.25×10⁻⁵ × Mɡ^0.85 m² (Mɡ in g).
+
+Source: Porter & Tracy (1983), as for [`_SA_DESERT_IGUANA`](@ref).
+"""
+const _VENTRAL_DESERT_IGUANA = PowerLaw(
+    4.25e-5, 0.85;
+    input_unit  = u"g",
+    output_unit = u"m^2",
+    reference   = "Porter & Tracy 1983 in Lizard Ecology (Harvard)"
+)
+
+"""
+    allometric(::SilhouetteArea{ZenithAngle}, ::LeopardFrog, mass, zenith_angle) → Area
+
+Leopard frog silhouette area as a percentage of total area, a quartic in the solar zenith
+angle (degrees), from Tracy (1976) *Ecological Monographs* 46:293–326.
+"""
+function allometric(::SilhouetteArea{ZenithAngle}, taxon::LeopardFrog, mass, zenith_angle)
+    θ = ustrip(u"°", zenith_angle)
+    percent = 1.38171e-6 * θ^4 - 1.93335e-4 * θ^3 + 4.75761e-3 * θ^2 - 0.167912 * θ + 45.8228
+    return percent / 100 * allometric(SurfaceArea(), taxon, mass)
+end
+
 # ── allometric dispatch ────────────────────────────────────────────────────────
 
 allometric(::SurfaceArea,  ::AbstractMammal, mass) = _SA_MAMMAL(mass)
+allometric(::SurfaceArea,  ::DesertIguana,   mass) = _SA_DESERT_IGUANA(mass)
+allometric(::SurfaceArea,  ::LeopardFrog,    mass) = _SIL_NORMAL_LEOPARD_FROG(mass)
+allometric(::VentralArea,  ::DesertIguana,   mass) = _VENTRAL_DESERT_IGUANA(mass)
 
 allometric(::SkinArea, ::AbstractMammal, mass) = _SKIN_AREA_MAMMAL(mass)
 allometric(::SkinArea, ::AbstractBird,   mass) = _SKIN_AREA_BIRD(mass)
@@ -219,6 +266,9 @@ allometric(::BrainMass, ::Human,          mass) = _BRAIN_HUMAN(mass)
 # ── power_law accessors ────────────────────────────────────────────────────────
 
 power_law(::SurfaceArea,  ::AbstractMammal) = _SA_MAMMAL
+power_law(::SurfaceArea,  ::DesertIguana)   = _SA_DESERT_IGUANA
+power_law(::SurfaceArea,  ::LeopardFrog)    = _SIL_NORMAL_LEOPARD_FROG
+power_law(::VentralArea,  ::DesertIguana)   = _VENTRAL_DESERT_IGUANA
 power_law(::SkinArea,     ::AbstractMammal) = _SKIN_AREA_MAMMAL
 power_law(::SkinArea,     ::AbstractBird)   = _SKIN_AREA_BIRD
 power_law(::PlumageArea,  ::AbstractBird)   = _PLUMAGE_AREA_BIRD
@@ -230,6 +280,7 @@ power_law(::BrainMass,    ::Human)          = _BRAIN_HUMAN
 # ── allometric_inputs ──────────────────────────────────────────────────────────
 
 allometric_inputs(::AbstractMorphology, ::AbstractTaxon) = (:mass,)
+allometric_inputs(::SilhouetteArea{ZenithAngle}, ::AbstractTaxon) = (:mass, :zenith_angle)
 
 # ── Named convenience wrappers ─────────────────────────────────────────────────
 

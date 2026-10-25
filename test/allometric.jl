@@ -171,3 +171,23 @@ end
     @test reference(ml) isa String
     @test !isempty(reference(ml))
 end
+
+# ── Ectotherm areas and metabolic rates used by HeatExchange ─────────────────
+
+@testset "DesertIguana and LeopardFrog areas" begin
+    m = 40.0u"g"
+    @test allometric(SurfaceArea(), DesertIguana(), m) ≈ uconvert(u"m^2", 10.4713 * 40.0^0.688 * u"cm^2")
+    @test allometric(VentralArea(), DesertIguana(), m) ≈ uconvert(u"m^2", 0.425 * 40.0^0.85 * u"cm^2")
+    @test allometric(SurfaceArea(), LeopardFrog(), m) ≈ uconvert(u"m^2", 12.79 * 40.0^0.606 * u"cm^2")
+    # silhouette is ~45.8 % of total area with the sun overhead
+    @test allometric(SilhouetteArea{ZenithAngle}(), LeopardFrog(), m, 0.0u"°") ≈
+          0.458228 * allometric(SurfaceArea(), LeopardFrog(), m)
+end
+
+@testset "Squamate resting and endotherm basal rates" begin
+    m, T = 40.0u"g", 30.0u"°C"
+    @test allometric(RestingMetabolicRate(), Squamate(), m, T) ≈
+          10^0.14 * allometric(StandardMetabolicRate(), Squamate(), m, T)
+    @test allometric(BasalMetabolicRate(), EutherianMammal(), 1.0u"kg", 37.0u"°C") ==
+          allometric(BasalMetabolicRate(), EutherianMammal(), 1.0u"kg")
+end
