@@ -203,15 +203,10 @@ const _SIL_VENTRAL_LEOPARD_FROG = PowerLaw(
 
 # ── Squamate and anuran surface areas ─────────────────────────────────────────
 
-"""
-    _SA_DESERT_IGUANA
-
-Desert iguana (*Dipsosaurus dorsalis*) total surface area: A = 1.04713×10⁻³ × Mɡ^0.688 m² (Mɡ in g).
-
-Source: Porter, W. P., & Tracy, C. R. (1983). Biophysical analyses of energetics, time-space
-utilization, and distributional limits. In *Lizard Ecology: Studies of a Model Organism*
-(pp. 55–83). Harvard University Press.
-"""
+# Desert iguana (*Dipsosaurus dorsalis*) total surface area: A = 1.04713×10⁻³ × Mɡ^0.688 m² (Mɡ in g).
+# Source: Porter, W. P., & Tracy, C. R. (1983). Biophysical analyses of energetics, time-space
+# utilization, and distributional limits. In *Lizard Ecology: Studies of a Model Organism*
+# (pp. 55–83). Harvard University Press.
 const _SA_DESERT_IGUANA = PowerLaw(
     1.04713e-3, 0.688;
     input_unit  = u"g",
@@ -219,13 +214,8 @@ const _SA_DESERT_IGUANA = PowerLaw(
     reference   = "Porter & Tracy 1983 in Lizard Ecology (Harvard)"
 )
 
-"""
-    _VENTRAL_DESERT_IGUANA
-
-Desert iguana ventral area: A = 4.25×10⁻⁵ × Mɡ^0.85 m² (Mɡ in g).
-
-Source: Porter & Tracy (1983), as for [`_SA_DESERT_IGUANA`](@ref).
-"""
+# Desert iguana ventral area: A = 4.25×10⁻⁵ × Mɡ^0.85 m² (Mɡ in g).
+# Source: Porter & Tracy (1983), as for [`_SA_DESERT_IGUANA`](@ref).
 const _VENTRAL_DESERT_IGUANA = PowerLaw(
     4.25e-5, 0.85;
     input_unit  = u"g",
