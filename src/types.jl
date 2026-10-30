@@ -145,12 +145,16 @@ struct BasalMetabolicRate    <: AbstractMetabolicRate end
 struct FieldMetabolicRate    <: AbstractMetabolicRate end
 "Standard (fasted, inactive) metabolic rate — temperature-dependent; used for ectotherms."
 struct StandardMetabolicRate <: AbstractMetabolicRate end
+"Resting (fasted, active-period) metabolic rate — temperature-dependent; used for ectotherms."
+struct RestingMetabolicRate  <: AbstractMetabolicRate end
 
 # Morphology
 "Total external body surface area."
 struct SurfaceArea  <: AbstractMorphology end
 "Bare skin surface area (no insulation)."
 struct SkinArea     <: AbstractMorphology end
+"Ventral (underside) area, in contact with the substrate."
+struct VentralArea  <: AbstractMorphology end
 "Outer plumage surface area (birds)."
 struct PlumageArea  <: AbstractMorphology end
 "Skeleton dry mass."
@@ -158,20 +162,10 @@ struct SkeletonMass <: AbstractMorphology end
 "Brain mass."
 struct BrainMass    <: AbstractMorphology end
 
-"""
-    AbstractSilhouetteOrientation
-
-Orientation of a body to the solar beam, for [`SilhouetteArea`](@ref): [`NormalToSun`](@ref) or [`ParallelToSun`](@ref).
-"""
-abstract type AbstractSilhouetteOrientation end
-"Body oriented perpendicular to the solar beam (maximum projected area)."
-struct NormalToSun   <: AbstractSilhouetteOrientation end
-"Body oriented parallel to the solar beam (minimum projected area)."
-struct ParallelToSun <: AbstractSilhouetteOrientation end
-
-"Projected body area onto a plane perpendicular to the direction of radiation.
-Parameterised by orientation relative to the solar beam: `NormalToSun()` or `ParallelToSun()`."
-struct SilhouetteArea{O <: AbstractSilhouetteOrientation} <: AbstractMorphology end
+"Projected body area onto a plane perpendicular to the direction of radiation, for a
+BiophysicalGeometry `SolarOrientation`: `NormalToSun`, `ParallelToSun` or `ZenithAngleVarying`
+(zenith angle passed as an extra argument)."
+struct SilhouetteArea{O <: SolarOrientation} <: AbstractMorphology end
 
 # Locomotion
 "Stride frequency at trot–gallop transition."

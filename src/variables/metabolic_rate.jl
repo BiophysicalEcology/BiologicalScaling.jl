@@ -97,6 +97,15 @@ allometric(v::BasalMetabolicRate, ::AbstractMammal,  mass) = allometric(v, Euthe
 allometric(v::BasalMetabolicRate, ::AbstractBird,    mass) = allometric(v, NonPasserineBird(), mass)
 
 """
+    allometric(::BasalMetabolicRate, taxon::Union{AbstractMammal,AbstractBird}, mass, temperature) → Power (W)
+
+Basal metabolic rate of an endotherm; `temperature` is ignored, so all metabolic rates
+can be called with `(mass, temperature)`.
+"""
+allometric(v::BasalMetabolicRate, taxon::Union{AbstractMammal,AbstractBird}, mass, temperature) =
+    allometric(v, taxon, mass)
+
+"""
     allometric(::StandardMetabolicRate, ::Squamate, mass, temperature; metabolic_state=0.0) → Power (W)
 
 Predict standard or resting metabolic rate of squamate reptiles from body mass and body
@@ -118,6 +127,15 @@ function allometric(::StandardMetabolicRate, ::Squamate, mass, temperature;
     oxygen_ml_hr = 0.013 * mass_g^0.8 * 10.0^(0.038 * temp_C) * 10.0^(0.14 * metabolic_state)
     return (oxygen_ml_hr * 20.1 / 3600.0) * u"W"
 end
+
+"""
+    allometric(::RestingMetabolicRate, ::Squamate, mass, temperature) → Power (W)
+
+Resting (fasted, active-period) metabolic rate of squamate reptiles: Andrews & Pough (1985)
+Eq. 2 with `metabolic_state = 1`.
+"""
+allometric(::RestingMetabolicRate, taxon::Squamate, mass, temperature) =
+    allometric(StandardMetabolicRate(), taxon, mass, temperature; metabolic_state = 1.0)
 
 """
     allometric(::BasalMetabolicRate, ::AbstractPlant, mass, temperature) → Power (W)
@@ -155,7 +173,9 @@ power_law(v::BasalMetabolicRate, ::AbstractBird)    = power_law(v, NonPasserineB
 # ── allometric_inputs ──────────────────────────────────────────────────────────
 
 allometric_inputs(::BasalMetabolicRate,    ::AbstractTaxon) = (:mass,)
+allometric_inputs(::BasalMetabolicRate,    ::AbstractPlant) = (:mass, :temperature)
 allometric_inputs(::StandardMetabolicRate, ::AbstractTaxon) = (:mass, :temperature)
+allometric_inputs(::RestingMetabolicRate,  ::AbstractTaxon) = (:mass, :temperature)
 
 # ── Named convenience wrappers ─────────────────────────────────────────────────
 

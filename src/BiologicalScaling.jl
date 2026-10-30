@@ -1,6 +1,9 @@
 module BiologicalScaling
 
 using Unitful
+using BiophysicalGeometry: BiophysicalGeometry, AbstractShape, AbstractBody, Naked, SurfaceAreas,
+    SolarOrientation, NormalToSun, ParallelToSun, Intermediate, ZenithAngleVarying
+import BiophysicalGeometry: surface_area, skin_area, silhouette_area
 
 # ── Exports ───────────────────────────────────────────────────────────────────
 
@@ -18,9 +21,9 @@ export AbstractTaxon,
 export AbstractScalingVariable,
     AbstractMetabolicRate, AbstractMorphology, AbstractLocomotion,
     AbstractCardioRespiratory, AbstractLifeHistory, AbstractLeafMorphology,
-    BasalMetabolicRate, FieldMetabolicRate, StandardMetabolicRate,
-    AbstractSilhouetteOrientation, NormalToSun, ParallelToSun,
-    SurfaceArea, SkinArea, PlumageArea, SkeletonMass, BrainMass, SilhouetteArea,
+    BasalMetabolicRate, FieldMetabolicRate, StandardMetabolicRate, RestingMetabolicRate,
+    NormalToSun, ParallelToSun, ZenithAngleVarying,
+    SurfaceArea, SkinArea, VentralArea, PlumageArea, SkeletonMass, BrainMass, SilhouetteArea,
     StrideFrequency, CostOfTransport,
     HeartRate, LungVolume, TidalVolume,
     Lifespan, GenerationTime,
@@ -49,6 +52,9 @@ export limb_diameter, limb_length, limb_aspect_ratio
 
 # Body-part proportions
 export BodyPartProportions, body_part_proportions, HUMAN_BODY_PROPORTIONS
+
+# Bodies with allometric areas (BiophysicalGeometry shapes)
+export AllometricShape
 
 # Makie plotting — recipe functions and convenience wrappers (implementations in ext/)
 export allometric_scaling, allometric_scaling!
@@ -142,6 +148,7 @@ include("variables/life_history.jl")
 include("variables/leaf_morphology.jl")
 include("structural_constraints.jl")
 include("body_part_proportions.jl")
+include("allometric_shape.jl")
 include("scaling_registry.jl")
 
 end
